@@ -1,0 +1,103 @@
+version: 2.1
+
+orbs:
+  coveralls: coveralls/coveralls@1.0.6
+
+default_working_dir: &default_working_dir
+  working_directory: ~/app
+
+default_env: &default_env
+  docker:
+    - image: cimg/node:18.19.0
+  <<: *default_working_dir
+
+jobs:
+  install:
+    <<: *default_env
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package-lock.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run:
+          name: Install
+          command: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+      - persist_to_workspace:
+          root: "."
+          paths:
+            - "package.json"
+            - "package-lock.json"
+            - "jest.*.js"
+            - ".gitignore"
+            - ".eslintrc"
+            - "node_modules"
+            - ".git/*"
+            - ".circleci/*"
+            - "src/*"
+            - "vercel.json"
+
+  format:
+    <<: *default_env
+
+    steps:
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Format
+          command: npm run format
+
+  test:
+    <<: *default_env
+
+    steps:
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Test
+          command: npm run test -- --maxWorkers=2 --coverage --coverageReporters=lcov
+      - coveralls/upload:
+          verbose: true
+
+  deploy:
+    <<: *default_env
+
+    steps:
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Pull Vercel Environment Information
+          command: npx vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+      - run:
+          name: Build Vercel Artifacts
+          command: npx vercel build --prod --token=$VERCEL_TOKEN
+      - run:
+          name: Deploy
+          command: npx vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+
+workflows:
+  version: 2
+
+  branch-workflow:
+    jobs:
+      - install
+      - format:
+          requires:
+            - install
+      - test:
+          requires:
+            - install
+      - deploy:
+          requires:
+            - format
+            - test
+          filters:
+            branches:
+              only:
+                - main
