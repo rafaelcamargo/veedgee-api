@@ -1,4 +1,8 @@
+const { PrismaClient } = require('@prisma/client');
+
 const _public = {};
+
+_public.dbClient = new PrismaClient();
 
 _public.handleTransaction = (request, onSuccess, res) => {
   request()
