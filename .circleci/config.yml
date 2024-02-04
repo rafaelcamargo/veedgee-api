@@ -11,6 +11,15 @@ default_env: &default_env
     - image: cimg/node:18.19.0
   <<: *default_working_dir
 
+db_env: &db_env
+  docker:
+    - image: cimg/node:18.19.0
+    - image: cimg/postgres:14.10
+      environment:
+        POSTGRES_USER: veedgee_test
+        POSTGRES_DB: veedgee_test
+  <<: *default_working_dir
+
 jobs:
   install:
     <<: *default_env
@@ -42,6 +51,7 @@ jobs:
             - ".circleci/*"
             - "src/*"
             - "vercel.json"
+            - "environments/*"
 
   format:
     <<: *default_env
@@ -54,14 +64,14 @@ jobs:
           command: npm run format
 
   test:
-    <<: *default_env
+    <<: *db_env
 
     steps:
       - attach_workspace:
           at: ~/app
       - run:
           name: Test
-          command: npm run test -- --maxWorkers=2 --coverage --coverageReporters=lcov
+          command: npm run test:ci -- --maxWorkers=2 --coverage --coverageReporters=lcov
       - coveralls/upload:
           verbose: true
 
