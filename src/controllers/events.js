@@ -9,7 +9,7 @@ _public.save = (req, res) => handleTransaction(
 );
 
 _public.get = (req, res) => handleTransaction(
-  () => dbClient.events.findMany({ where: { slug: req.params.slug } }),
+  () => dbClient.events.findMany({ where: { slug: req.query.slug } }),
   data => res.status(200).send(data),
   res
 );
