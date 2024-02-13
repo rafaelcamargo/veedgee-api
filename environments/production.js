@@ -5,6 +5,7 @@ module.exports = {
     PORT: process.env.VEEDGEE_DB_PORT,
     NAME: process.env.VEEDGEE_DB_NAME,
     USER: process.env.VEEDGEE_DB_USER,
-    PASS: process.env.VEEDGEE_DB_PASS,
-  }
+    PASS: process.env.VEEDGEE_DB_PASS
+  },
+  ROLLBAR_TOKEN: process.env.VEEDGEE_API_ROLLBAR_TOKEN
 }

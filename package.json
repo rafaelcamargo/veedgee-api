@@ -24,7 +24,8 @@
     "@prisma/client": "^5.9.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "rollbar": "^2.26.2"
   },
   "devDependencies": {
     "eslint": "^8.56.0",
