@@ -1,8 +1,10 @@
-require('./services/error').init();
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+const { appendRoutes } = require('./routes');
 
 app.use(cors());
+app.use(bodyParser.json());
 
-module.exports = app;
+module.exports = appendRoutes(app);
