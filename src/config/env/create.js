@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const ENV = require('../../services/environment')();
+const ENV = require('../../services/environment').get();
 
 init();
 

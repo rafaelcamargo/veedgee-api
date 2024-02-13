@@ -1,5 +1,5 @@
 const { Client } = require('pg');
-const ENV = require('../../services/environment')();
+const ENV = require('../../services/environment').get();
 
 const _public = {};
 
