@@ -14,15 +14,25 @@ _public.get = (req, res) => handleTransaction(
   res
 );
 
-function buildFilter({ slug, minDate }){
+function buildFilter({ slug, minDate, minCreationDate }){
   return {
     where: {
       slug,
       date: {
         gte: minDate
+      },
+      created_at: {
+        gte: buildIsoDateString(minCreationDate)
       }
     }
   };
+}
+
+function buildIsoDateString(dashedDateString){
+  if(dashedDateString) {
+    const [year, month, day] = dashedDateString.split('-').map(value => parseInt(value));
+    return new Date(year, month - 1, day).toISOString();
+  }
 }
 
 module.exports = _public;

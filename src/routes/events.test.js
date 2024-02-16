@@ -122,4 +122,40 @@ describe('Events Routes', () => {
       }
     ]);
   });
+
+  it('should filter events by mininum creation date', async () => {
+    const event1 = buildEvent({
+      title: 'First Event',
+      slug: 'first-event-joinville-sc-20240215',
+      date: '2024-02-15',
+      created_at: new Date(2024, 1, 10).toISOString(),
+      updated_at: new Date(2024, 1, 10).toISOString()
+    });
+    const event2 = buildEvent({
+      title: 'Second Event',
+      slug: 'second-event-joinville-sc-20240217',
+      date: '2024-02-17',
+      created_at: new Date(2024, 1, 10).toISOString(),
+      updated_at: new Date(2024, 1, 10).toISOString()
+    });
+    const event3 = buildEvent({
+      title: 'Third Event',
+      slug: 'third-event-joinville-sc-20240225',
+      date: '2024-02-25',
+      time: '20:00',
+      created_at: new Date(2024, 1, 12).toISOString(),
+      updated_at: new Date(2024, 1, 12).toISOString()
+    });
+    await serve().post('/events').send(event1);
+    await serve().post('/events').send(event2);
+    await serve().post('/events').send(event3);
+    const response = await serve().get('/events?minCreationDate=2024-02-12');
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual([
+      {
+        id: expect.any(String),
+        ...event3
+      }
+    ]);
+  });
 });
