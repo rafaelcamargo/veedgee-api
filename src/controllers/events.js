@@ -9,9 +9,20 @@ _public.save = (req, res) => handleTransaction(
 );
 
 _public.get = (req, res) => handleTransaction(
-  () => dbClient.events.findMany({ where: { slug: req.query.slug } }),
+  () => dbClient.events.findMany(buildFilter(req.query)),
   data => res.status(200).send(data),
   res
 );
+
+function buildFilter({ slug, minDate }){
+  return {
+    where: {
+      slug,
+      date: {
+        gte: minDate
+      }
+    }
+  };
+}
 
 module.exports = _public;
