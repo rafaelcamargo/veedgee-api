@@ -8,6 +8,6 @@ module.exports = {
     PASS: null
   },
   VEEDGEE: {
-    API_TOKENS: '["vee123"]'
+    API_TOKENS: 'vee890,vee123'
   }
 }
