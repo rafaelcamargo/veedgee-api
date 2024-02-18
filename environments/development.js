@@ -7,5 +7,7 @@ module.exports = {
     USER: 'veedgee_dev',
     PASS: null
   },
-  ROLLBAR_TOKEN: process.env.VEEDGEE_API_ROLLBAR_TOKEN
+  VEEDGEE: {
+    API_TOKENS: '["vee123"]'
+  }
 }

@@ -1,4 +1,7 @@
+const developement = require('./development');
+
 module.exports = {
+  ...developement,
   DB: {
     PROVIDER: 'postgresql',
     HOST: 'localhost',

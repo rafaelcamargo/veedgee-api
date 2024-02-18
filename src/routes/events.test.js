@@ -14,8 +14,17 @@ describe('Events Routes', () => {
     };
   }
 
+  async function saveEvent(event){
+    return await serve().post('/events').set({ vatoken: 'vee123' }).send(event);
+  }
+
   afterEach(async () => {
     await clearDbTable('events');
+  });
+
+  it('should not allow event creation by default', async () => {
+    const response = await serve().post('/events').send(buildEvent());
+    expect(response.status).toEqual(401);
   });
 
   it('should create an event', async () => {
@@ -23,7 +32,7 @@ describe('Events Routes', () => {
     const response1 = await serve().get(`/events?slug=${event.slug}`);
     expect(response1.status).toEqual(200);
     expect(response1.body).toEqual([]);
-    const response2 = await serve().post('/events').send(event);
+    const response2 = await saveEvent(event);
     expect(response2.status).toEqual(201);
     const response3 = await serve().get(`/events?slug=${event.slug}`);
     expect(response3.status).toEqual(200);
@@ -46,7 +55,7 @@ describe('Events Routes', () => {
     const response1 = await serve().get(`/events?slug=${event.slug}`);
     expect(response1.status).toEqual(200);
     expect(response1.body).toEqual([]);
-    const response2 = await serve().post('/events').send(event);
+    const response2 = await saveEvent(event);
     expect(response2.status).toEqual(201);
     const response3 = await serve().get(`/events?slug=${event.slug}`);
     expect(response3.status).toEqual(200);
@@ -71,8 +80,8 @@ describe('Events Routes', () => {
       date: '2024-02-17',
       time: '21:00'
     });
-    await serve().post('/events').send(event1);
-    await serve().post('/events').send(event2);
+    await saveEvent(event1);
+    await saveEvent(event2);
     const response = await serve().get('/events');
     expect(response.status).toEqual(200);
     expect(response.body).toEqual([
@@ -108,9 +117,9 @@ describe('Events Routes', () => {
       date: '2024-02-25',
       time: '20:00'
     });
-    await serve().post('/events').send(event1);
-    await serve().post('/events').send(event2);
-    await serve().post('/events').send(event3);
+    await saveEvent(event1);
+    await saveEvent(event2);
+    await saveEvent(event3);
     const response = await serve().get('/events?minDate=2024-02-20');
     expect(response.status).toEqual(200);
     expect(response.body).toEqual([
@@ -146,9 +155,9 @@ describe('Events Routes', () => {
       created_at: new Date(2024, 1, 12).toISOString(),
       updated_at: new Date(2024, 1, 12).toISOString()
     });
-    await serve().post('/events').send(event1);
-    await serve().post('/events').send(event2);
-    await serve().post('/events').send(event3);
+    await saveEvent(event1);
+    await saveEvent(event2);
+    await saveEvent(event3);
     const response = await serve().get('/events?minCreationDate=2024-02-12');
     expect(response.status).toEqual(200);
     expect(response.body).toEqual([
