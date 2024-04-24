@@ -67,17 +67,17 @@ describe('Events Routes', () => {
     }]);
   });
 
-  it('should get all events', async () => {
+  it('should get all events ordered by ascending date by default', async () => {
     const event1 = buildEvent({
       title: 'First Event',
       slug: 'first-event-joinville-sc-20240215',
-      date: '2024-02-15',
+      date: '2024-02-17',
       time: '20:00'
     });
     const event2 = buildEvent({
       title: 'Second Event',
       slug: 'second-event-joinville-sc-20240217',
-      date: '2024-02-17',
+      date: '2024-02-15',
       time: '21:00'
     });
     await saveEvent(event1);
@@ -89,13 +89,13 @@ describe('Events Routes', () => {
         id: expect.any(String),
         created_at: expect.any(String),
         updated_at: expect.any(String),
-        ...event1
+        ...event2
       },
       {
         id: expect.any(String),
         created_at: expect.any(String),
         updated_at: expect.any(String),
-        ...event2
+        ...event1
       }
     ]);
   });

@@ -24,7 +24,12 @@ function buildFilter({ slug, minDate, minCreationDate }){
       created_at: {
         gte: buildIsoDateString(minCreationDate)
       }
-    }
+    },
+    orderBy: [
+      {
+        date: 'asc'
+      }
+    ]
   };
 }
 
