@@ -80,8 +80,15 @@ describe('Events Routes', () => {
       date: '2024-02-15',
       time: '21:00'
     });
+    const event3 = buildEvent({
+      title: 'Third Event',
+      slug: 'third-event-joinville-sc-20240217',
+      date: '2024-02-17',
+      time: '17:00'
+    });
     await saveEvent(event1);
     await saveEvent(event2);
+    await saveEvent(event3);
     const response = await serve().get('/events');
     expect(response.status).toEqual(200);
     expect(response.body).toEqual([
@@ -90,6 +97,12 @@ describe('Events Routes', () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
         ...event2
+      },
+      {
+        id: expect.any(String),
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+        ...event3
       },
       {
         id: expect.any(String),

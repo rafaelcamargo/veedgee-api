@@ -26,9 +26,8 @@ function buildFilter({ slug, minDate, minCreationDate }){
       }
     },
     orderBy: [
-      {
-        date: 'asc'
-      }
+      { date: 'asc' },
+      { time: 'asc' }
     ]
   };
 }
