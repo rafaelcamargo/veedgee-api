@@ -13,9 +13,7 @@
     "db:migration": "npm run env:create && prisma migrate dev --name",
     "test": "NODE_ENV=test npm run env:create && NODE_ENV=test npm run db:setup && jest --coverage; NODE_ENV=test npm run db:drop",
     "test:ci": "NODE_ENV=test npm run db:migrate && prisma generate && jest",
-    "start": "npm run env:create && node src/index.js",
-    "vercel": "npm run env:create && vercel dev --listen 6000",
-    "deploy": "vercel deploy",
+    "start": "node src/index.js",
     "postinstall": "prisma generate"
   },
   "author": "Rafael Camargo <hello@rafaelcamargo.com>",
@@ -35,11 +33,10 @@
     "jest": "^29.7.0",
     "pg": "^8.11.3",
     "prisma": "^5.9.1",
-    "supertest": "^6.3.4",
-    "vercel": "^33.4.1"
+    "supertest": "^6.3.4"
   },
   "engines": {
-    "node": "^18.19.0"
+    "node": "^22.5.1"
   },
   "prisma": {
     "schema": "src/config/db/schema.prisma"

@@ -2,7 +2,6 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.js',
     '!src/index.js',
-    '!src/vercel.js',
     '!src/config/**/*.js'
   ],
   coverageReporters: ['html', 'text-summary'],
@@ -14,5 +13,5 @@ module.exports = {
       lines: 100
     }
   },
-  testPathIgnorePatterns: ['environments/', '.vercel/']
+  testPathIgnorePatterns: ['environments/']
 };
