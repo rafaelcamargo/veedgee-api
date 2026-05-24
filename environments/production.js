@@ -1,4 +1,5 @@
 module.exports = {
+  TYPE: 'production',
   DB: {
     PROVIDER: 'postgresql',
     HOST: process.env.VEEDGEE_DB_HOST,

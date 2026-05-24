@@ -1,4 +1,5 @@
 const ResponseMock = require('../mocks/response');
+const { DB_TRANSACTION_ERROR } = require('../constants/eventNames');
 const { pause } = require('./testing');
 const { handleTransaction } = require('./database');
 const loggerService = require('./logger');
@@ -20,7 +21,7 @@ describe('Database Service', () => {
     const res = new ResponseMock();
     handleTransaction(request, jest.fn(), res);
     await pause(100);
-    expect(loggerService.track).toHaveBeenCalledWith(err);
+    expect(loggerService.track).toHaveBeenCalledWith(DB_TRANSACTION_ERROR, err);
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.send).toHaveBeenCalledWith(err);
   });

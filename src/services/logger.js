@@ -7,39 +7,42 @@ const _public = {};
 let started;
 
 _public.init = () => {
-  const { BUGSNAG_API_TOKEN } = environmentService.get();
-  if(BUGSNAG_API_TOKEN) {
-    Bugsnag.start({
-      apiKey: BUGSNAG_API_TOKEN,
-      metadata: {
-        app: `${projectPkg.name}@${projectPkg.version}`
+  const { TYPE, BUGSNAG_API_TOKEN } = environmentService.get();
+  Bugsnag.start({
+    apiKey: BUGSNAG_API_TOKEN,
+    appVersion: projectPkg.version,
+    releaseStage: TYPE,
+    metadata: {
+      app: {
+        name: projectPkg.name,
+        version: projectPkg.version
+      },
+      api: {
+        service: 'veedgee-api'
       }
-    });
-    started = true;
-  }
+    }
+  });
+  started = true;
 };
 
-_public.track = (message, { type } = {}) => {
-  if(started) {
-    return type == 'info' ? trackInfo(message) : trackError(message);
-  }
+const CUSTOM_DETAILS_SECTION = 'custom details';
+
+_public.track = (errorName, err, metadata = {}) => {
+  err && console.error(errorName, err);
+  notify(err, buildBugsnagCallback({
+    context: errorName,
+    metadata
+  }));
 };
 
-function trackInfo(info){
-  console.log(info);
-  Bugsnag.notify(info, buildBugsnagCallback({ severity: 'info' }));
+function notify(message, callback){
+  started && message && Bugsnag.notify(message, callback);
 }
 
-function trackError(err){
-  console.error(err);
-  Bugsnag.notify(err);
-}
-
-function buildBugsnagCallback(options){
+function buildBugsnagCallback({ context, metadata }){
   return event => {
-    Object.entries(options).forEach(([key, value]) => {
-      event[key] = value;
-    });
+    event.context = context;
+    Object.keys(metadata).length && event.addMetadata(CUSTOM_DETAILS_SECTION, metadata);
   };
 }
 

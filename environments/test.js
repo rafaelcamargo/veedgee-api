@@ -2,6 +2,7 @@ const developement = require('./development');
 
 module.exports = {
   ...developement,
+  TYPE: 'test',
   DB: {
     PROVIDER: 'postgresql',
     HOST: 'localhost',

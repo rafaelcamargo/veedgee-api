@@ -2,6 +2,7 @@ const ws = require('ws');
 const { Pool, neonConfig } = require('@neondatabase/serverless');
 const { PrismaNeon } = require('@prisma/adapter-neon');
 const { PrismaClient } = require('@prisma/client');
+const { DB_TRANSACTION_ERROR } = require('../constants/eventNames');
 const loggerService = require('./logger');
 
 const _public = {};
@@ -12,7 +13,7 @@ _public.handleTransaction = (request, onSuccess, res) => {
   request()
     .then(data => onSuccess(data))
     .catch(err => {
-      loggerService.track(err);
+      loggerService.track(DB_TRANSACTION_ERROR, err);
       res.status(500).send(err);
     });
 };
