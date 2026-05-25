@@ -8,6 +8,12 @@ _public.save = (req, res) => handleTransaction(
   res
 );
 
+_public.bulkSave = (req, res) => handleTransaction(
+  () => dbClient.events.createMany({ data: req.body, skipDuplicates: true }),
+  result => res.status(201).send({ count: result.count }),
+  res
+);
+
 _public.get = (req, res) => handleTransaction(
   () => dbClient.events.findMany(buildFilter(req.query)),
   data => res.status(200).send(data),
