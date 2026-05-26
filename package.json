@@ -11,8 +11,8 @@
     "db:drop": "node src/config/db/drop.js",
     "db:migrate": "npm run env:create && prisma migrate deploy",
     "db:migration": "npm run env:create && prisma migrate dev --name",
-    "test": "NODE_ENV=test npm run env:create && NODE_ENV=test npm run db:setup && jest --coverage; NODE_ENV=test npm run db:drop",
-    "test:ci": "NODE_ENV=test npm run db:migrate && prisma generate && jest",
+    "test": "NODE_ENV=test npm run env:create && NODE_ENV=test npm run db:setup && jest --run-in-band --coverage; NODE_ENV=test npm run db:drop",
+    "test:ci": "NODE_ENV=test npm run db:migrate && prisma generate && jest --run-in-band --coverage --coverageReporters=lcov",
     "start": "node src/index.js",
     "postinstall": "prisma generate"
   },

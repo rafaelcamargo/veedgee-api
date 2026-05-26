@@ -73,7 +73,7 @@ jobs:
           at: ~/app
       - run:
           name: Test
-          command: npm run test:ci -- --maxWorkers=2 --coverage --coverageReporters=lcov
+          command: npm run test:ci
       - coveralls/upload:
           verbose: true
 
