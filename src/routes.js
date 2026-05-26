@@ -1,4 +1,4 @@
-const routes = require('./routes/index');
+const routes = require('./routes/');
 
 const _public = {};
 

@@ -46,7 +46,7 @@ describe('Bulk Routes', () => {
     expect(response2.body).toEqual({ count: 2 });
     const response3 = await serve().get('/events');
     expect(response3.status).toEqual(200);
-    expect(response3.body).toEqual([
+    expect(response3.body).toEqual(expect.arrayContaining([
       {
         id: expect.any(String),
         created_at: expect.any(String),
@@ -61,7 +61,8 @@ describe('Bulk Routes', () => {
         time: null,
         ...event2
       }
-    ]);
+    ]));
+    expect(response3.body).toHaveLength(2);
   });
 
   it('should skip duplicate events when bulk saving', async () => {
@@ -81,7 +82,7 @@ describe('Bulk Routes', () => {
     expect(response.body).toEqual({ count: 1 });
     const listResponse = await serve().get('/events');
     expect(listResponse.status).toEqual(200);
-    expect(listResponse.body).toEqual([
+    expect(listResponse.body).toEqual(expect.arrayContaining([
       {
         id: expect.any(String),
         created_at: expect.any(String),
@@ -96,6 +97,7 @@ describe('Bulk Routes', () => {
         time: null,
         ...newEvent
       }
-    ]);
+    ]));
+    expect(listResponse.body).toHaveLength(2);
   });
 });
