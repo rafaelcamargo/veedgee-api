@@ -1,21 +1,22 @@
 const { dbClient, handleTransaction } = require('../services/database');
+const tracerService = require('../services/tracer');
 
 const _public = {};
 
 _public.save = (req, res) => handleTransaction(
-  () => dbClient.events.create({ data: req.body }),
+  () => tracerService.run('events.save.db', () => dbClient.events.create({ data: req.body })),
   () => res.status(201).send(),
   res
 );
 
 _public.bulkSave = (req, res) => handleTransaction(
-  () => dbClient.events.createMany({ data: req.body, skipDuplicates: true }),
+  () => tracerService.run('bulk.events.save.db', () => dbClient.events.createMany({ data: req.body, skipDuplicates: true })),
   result => res.status(201).send({ count: result.count }),
   res
 );
 
 _public.get = (req, res) => handleTransaction(
-  () => dbClient.events.findMany(buildFilter(req.query)),
+  () => tracerService.run('events.get.db', () => dbClient.events.findMany(buildFilter(req.query))),
   data => res.status(200).send(data),
   res
 );

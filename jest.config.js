@@ -2,6 +2,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.js',
     '!src/index.js',
+    '!src/instrumentation.js',
     '!src/config/**/*.js'
   ],
   coverageReporters: ['html', 'text-summary'],
