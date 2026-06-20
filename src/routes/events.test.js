@@ -41,6 +41,7 @@ describe('Events Routes', () => {
       created_at: expect.any(String),
       updated_at: expect.any(String),
       time: null,
+      category: null,
       ...event
     }]);
   });
@@ -63,6 +64,30 @@ describe('Events Routes', () => {
       id: expect.any(String),
       created_at: expect.any(String),
       updated_at: expect.any(String),
+      category: null,
+      ...event
+    }]);
+  });
+
+  it('should create an event optionally passing event category', async () => {
+    const event = buildEvent({
+      title: 'My Categorized Event',
+      slug: 'my-categorized-event-joinville-sc-20231229',
+      url: '/some/service/my-categorized-event',
+      category: 'meetup'
+    });
+    const response1 = await serve().get(`/events?slug=${event.slug}`);
+    expect(response1.status).toEqual(200);
+    expect(response1.body).toEqual([]);
+    const response2 = await saveEvent(event);
+    expect(response2.status).toEqual(201);
+    const response3 = await serve().get(`/events?slug=${event.slug}`);
+    expect(response3.status).toEqual(200);
+    expect(response3.body).toEqual([{
+      id: expect.any(String),
+      created_at: expect.any(String),
+      updated_at: expect.any(String),
+      time: null,
       ...event
     }]);
   });
@@ -96,18 +121,21 @@ describe('Events Routes', () => {
         id: expect.any(String),
         created_at: expect.any(String),
         updated_at: expect.any(String),
+        category: null,
         ...event2
       },
       {
         id: expect.any(String),
         created_at: expect.any(String),
         updated_at: expect.any(String),
+        category: null,
         ...event3
       },
       {
         id: expect.any(String),
         created_at: expect.any(String),
         updated_at: expect.any(String),
+        category: null,
         ...event1
       }
     ]);
@@ -140,6 +168,7 @@ describe('Events Routes', () => {
         id: expect.any(String),
         created_at: expect.any(String),
         updated_at: expect.any(String),
+        category: null,
         ...event3
       }
     ]);
@@ -176,6 +205,7 @@ describe('Events Routes', () => {
     expect(response.body).toEqual([
       {
         id: expect.any(String),
+        category: null,
         ...event3
       }
     ]);

@@ -52,6 +52,7 @@ describe('Bulk Routes', () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
         time: null,
+        category: null,
         ...event1
       },
       {
@@ -59,6 +60,7 @@ describe('Bulk Routes', () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
         time: null,
+        category: null,
         ...event2
       }
     ]));
@@ -88,6 +90,7 @@ describe('Bulk Routes', () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
         time: null,
+        category: null,
         ...existingEvent
       },
       {
@@ -95,6 +98,7 @@ describe('Bulk Routes', () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
         time: null,
+        category: null,
         ...newEvent
       }
     ]));

@@ -19,6 +19,7 @@ model Events {
   state      String
   country    String
   url        String
+  category   String?
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 }
