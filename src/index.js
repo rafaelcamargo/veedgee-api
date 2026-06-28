@@ -1,4 +1,3 @@
-require('./instrumentation');
 const app = require('./app');
 const loggerService = require('./services/logger');
 const PORT = process.env.PORT || 4000;
