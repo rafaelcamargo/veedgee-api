@@ -53,6 +53,11 @@ describe('Bulk Routes', () => {
         updated_at: expect.any(String),
         time: null,
         category: null,
+        description: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
         ...event1
       },
       {
@@ -61,6 +66,11 @@ describe('Bulk Routes', () => {
         updated_at: expect.any(String),
         time: null,
         category: null,
+        description: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
         ...event2
       }
     ]));
@@ -91,6 +101,11 @@ describe('Bulk Routes', () => {
         updated_at: expect.any(String),
         time: null,
         category: null,
+        description: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
         ...existingEvent
       },
       {
@@ -99,6 +114,11 @@ describe('Bulk Routes', () => {
         updated_at: expect.any(String),
         time: null,
         category: null,
+        description: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
         ...newEvent
       }
     ]));

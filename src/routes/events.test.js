@@ -42,16 +42,27 @@ describe('Events Routes', () => {
       updated_at: expect.any(String),
       time: null,
       category: null,
+      description: null,
+      image: null,
+      address: null,
+      latitude: null,
+      longitude: null,
       ...event
     }]);
   });
 
-  it('should create an event optionally passing event time', async () => {
+  it('should create an event with optinal attributes', async () => {
     const event = buildEvent({
-      title: 'My Other Event',
-      slug: 'my-other-event-joinville-sc-20231229',
-      url: '/some/other/service/my-other-event',
-      time: '19:00'
+      title: 'My Full Event',
+      slug: 'my-full-event-joinville-sc-20231229',
+      url: '/some/service/my-full-event',
+      time: '19:00',
+      category: 'meetup',
+      description: 'A great tech meetup in Joinville',
+      image: 'https://example.com/event-cover.jpg',
+      address: 'Rua XV de Novembro, 1000 - Centro, Joinville - SC',
+      latitude: '-26.3044',
+      longitude: '-48.8464'
     });
     const response1 = await serve().get(`/events?slug=${event.slug}`);
     expect(response1.status).toEqual(200);
@@ -64,30 +75,6 @@ describe('Events Routes', () => {
       id: expect.any(String),
       created_at: expect.any(String),
       updated_at: expect.any(String),
-      category: null,
-      ...event
-    }]);
-  });
-
-  it('should create an event optionally passing event category', async () => {
-    const event = buildEvent({
-      title: 'My Categorized Event',
-      slug: 'my-categorized-event-joinville-sc-20231229',
-      url: '/some/service/my-categorized-event',
-      category: 'meetup'
-    });
-    const response1 = await serve().get(`/events?slug=${event.slug}`);
-    expect(response1.status).toEqual(200);
-    expect(response1.body).toEqual([]);
-    const response2 = await saveEvent(event);
-    expect(response2.status).toEqual(201);
-    const response3 = await serve().get(`/events?slug=${event.slug}`);
-    expect(response3.status).toEqual(200);
-    expect(response3.body).toEqual([{
-      id: expect.any(String),
-      created_at: expect.any(String),
-      updated_at: expect.any(String),
-      time: null,
       ...event
     }]);
   });
@@ -122,6 +109,11 @@ describe('Events Routes', () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
         category: null,
+        description: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
         ...event2
       },
       {
@@ -129,6 +121,11 @@ describe('Events Routes', () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
         category: null,
+        description: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
         ...event3
       },
       {
@@ -136,6 +133,11 @@ describe('Events Routes', () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
         category: null,
+        description: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
         ...event1
       }
     ]);
@@ -169,6 +171,11 @@ describe('Events Routes', () => {
         created_at: expect.any(String),
         updated_at: expect.any(String),
         category: null,
+        description: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
         ...event3
       }
     ]);
@@ -206,6 +213,11 @@ describe('Events Routes', () => {
       {
         id: expect.any(String),
         category: null,
+        description: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
         ...event3
       }
     ]);
