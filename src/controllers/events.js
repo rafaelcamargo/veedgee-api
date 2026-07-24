@@ -20,7 +20,7 @@ _public.get = (req, res) => handleTransaction(
   res
 );
 
-function buildFilter({ slug, minDate, minCreationDate }){
+function buildFilter({ slug, minDate, minCreationDate, hasDescription, hasCategory }){
   return {
     where: {
       slug,
@@ -29,13 +29,21 @@ function buildFilter({ slug, minDate, minCreationDate }){
       },
       created_at: {
         gte: buildIsoDateString(minCreationDate)
-      }
+      },
+      ...buildNullablePresenceFilter('description', hasDescription),
+      ...buildNullablePresenceFilter('category', hasCategory)
     },
     orderBy: [
       { date: 'asc' },
       { time: 'asc' }
     ]
   };
+}
+
+function buildNullablePresenceFilter(field, flag){
+  if(flag === 'true') return { [field]: { not: null } };
+  if(flag === 'false') return { [field]: null };
+  return {};
 }
 
 function buildIsoDateString(dashedDateString){

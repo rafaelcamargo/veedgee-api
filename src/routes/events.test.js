@@ -222,4 +222,57 @@ describe('Events Routes', () => {
       }
     ]);
   });
+
+  it('should filter events by minimum creation date, presence of description and absence of category', async () => {
+    const matchingEvent = buildEvent({
+      title: 'Matching Event',
+      slug: 'matching-event-joinville-sc-20240225',
+      date: '2024-02-25',
+      description: 'An event with description and no category',
+      created_at: new Date(2024, 1, 12).toISOString(),
+      updated_at: new Date(2024, 1, 12).toISOString()
+    });
+    const olderEvent = buildEvent({
+      title: 'Older Event',
+      slug: 'older-event-joinville-sc-20240215',
+      date: '2024-02-15',
+      description: 'An older event with description and no category',
+      created_at: new Date(2024, 1, 10).toISOString(),
+      updated_at: new Date(2024, 1, 10).toISOString()
+    });
+    const categorizedEvent = buildEvent({
+      title: 'Categorized Event',
+      slug: 'categorized-event-joinville-sc-20240217',
+      date: '2024-02-17',
+      description: 'An event with description and category',
+      category: 'meetup',
+      created_at: new Date(2024, 1, 12).toISOString(),
+      updated_at: new Date(2024, 1, 12).toISOString()
+    });
+    const undescribedEvent = buildEvent({
+      title: 'Undescribed Event',
+      slug: 'undescribed-event-joinville-sc-20240220',
+      date: '2024-02-20',
+      created_at: new Date(2024, 1, 12).toISOString(),
+      updated_at: new Date(2024, 1, 12).toISOString()
+    });
+    await saveEvent(matchingEvent);
+    await saveEvent(olderEvent);
+    await saveEvent(categorizedEvent);
+    await saveEvent(undescribedEvent);
+    const response = await serve().get('/events?minCreationDate=2024-02-12&hasDescription=true&hasCategory=false');
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual([
+      {
+        id: expect.any(String),
+        category: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
+        time: null,
+        ...matchingEvent
+      }
+    ]);
+  });
 });
