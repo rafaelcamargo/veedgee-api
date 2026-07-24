@@ -18,12 +18,21 @@ describe('Bulk Routes', () => {
     return await serve().post('/bulk/events').set({ vatoken: 'vee123' }).send(events);
   }
 
+  async function bulkPatchEvents(events){
+    return await serve().patch('/bulk/events').set({ vatoken: 'vee123' }).send(events);
+  }
+
   afterEach(async () => {
     await clearDbTable('events');
   });
 
   it('should not allow bulk event creation by default', async () => {
     const response = await serve().post('/bulk/events').send([buildEvent()]);
+    expect(response.status).toEqual(401);
+  });
+
+  it('should not allow bulk event update by default', async () => {
+    const response = await serve().patch('/bulk/events').send([{ id: 'some-id', category: 'meetup' }]);
     expect(response.status).toEqual(401);
   });
 
@@ -123,5 +132,59 @@ describe('Bulk Routes', () => {
       }
     ]));
     expect(listResponse.body).toHaveLength(2);
+  });
+
+  it('should bulk patch events partially', async () => {
+    const event1 = buildEvent({
+      title: 'First Event',
+      slug: 'first-event-joinville-sc-20240215',
+      date: '2024-02-15'
+    });
+    const event2 = buildEvent({
+      title: 'Second Event',
+      slug: 'second-event-joinville-sc-20240217',
+      date: '2024-02-17'
+    });
+    await bulkSaveEvents([event1, event2]);
+    const response1 = await serve().get('/events');
+    expect(response1.status).toEqual(200);
+    const [savedEvent1, savedEvent2] = response1.body;
+    const patchResponse = await bulkPatchEvents([{
+      id: savedEvent1.id,
+      description: 'A great tech meetup in Joinville',
+      category: 'meetup'
+    }]);
+    expect(patchResponse.status).toEqual(200);
+    expect(patchResponse.body).toEqual({ count: 1 });
+    const response2 = await serve().get('/events');
+    expect(response2.status).toEqual(200);
+    expect(response2.body).toEqual([
+      {
+        id: savedEvent1.id,
+        created_at: savedEvent1.created_at,
+        updated_at: savedEvent1.updated_at,
+        time: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
+        ...event1,
+        description: 'A great tech meetup in Joinville',
+        category: 'meetup'
+      },
+      {
+        id: savedEvent2.id,
+        created_at: savedEvent2.created_at,
+        updated_at: savedEvent2.updated_at,
+        time: null,
+        category: null,
+        description: null,
+        image: null,
+        address: null,
+        latitude: null,
+        longitude: null,
+        ...event2
+      }
+    ]);
   });
 });

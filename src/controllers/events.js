@@ -14,6 +14,12 @@ _public.bulkSave = (req, res) => handleTransaction(
   res
 );
 
+_public.bulkUpdate = (req, res) => handleTransaction(
+  () => Promise.all(req.body.map(buildEventUpdate)),
+  result => res.status(200).send({ count: result.length }),
+  res
+);
+
 _public.get = (req, res) => handleTransaction(
   () => dbClient.events.findMany(buildFilter(req.query)),
   data => res.status(200).send(data),
@@ -51,6 +57,13 @@ function buildIsoDateString(dashedDateString){
     const [year, month, day] = dashedDateString.split('-').map(value => parseInt(value));
     return new Date(year, month - 1, day).toISOString();
   }
+}
+
+function buildEventUpdate({ id, ...data }){
+  return dbClient.events.update({
+    where: { id },
+    data
+  });
 }
 
 module.exports = _public;
