@@ -47,11 +47,13 @@ describe('Events Routes', () => {
       address: null,
       latitude: null,
       longitude: null,
+      enhanced_title: null,
+      enhanced_description: null,
       ...event
     }]);
   });
 
-  it('should create an event with optinal attributes', async () => {
+  it('should create an event with optional attributes', async () => {
     const event = buildEvent({
       title: 'My Full Event',
       slug: 'my-full-event-joinville-sc-20231229',
@@ -62,7 +64,9 @@ describe('Events Routes', () => {
       image: 'https://example.com/event-cover.jpg',
       address: 'Rua XV de Novembro, 1000 - Centro, Joinville - SC',
       latitude: '-26.3044',
-      longitude: '-48.8464'
+      longitude: '-48.8464',
+      enhanced_title: 'Enhanced: My Full Event — Tech Meetup in Joinville',
+      enhanced_description: 'An enhanced overview of a great tech meetup in Joinville, covering talks, networking, and community highlights for local developers.'
     });
     const response1 = await serve().get(`/events?slug=${event.slug}`);
     expect(response1.status).toEqual(200);
@@ -114,6 +118,8 @@ describe('Events Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...event2
       },
       {
@@ -126,6 +132,8 @@ describe('Events Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...event3
       },
       {
@@ -138,6 +146,8 @@ describe('Events Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...event1
       }
     ]);
@@ -176,6 +186,8 @@ describe('Events Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...event3
       }
     ]);
@@ -218,6 +230,8 @@ describe('Events Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...event3
       }
     ]);
@@ -270,6 +284,8 @@ describe('Events Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         time: null,
         ...matchingEvent
       }

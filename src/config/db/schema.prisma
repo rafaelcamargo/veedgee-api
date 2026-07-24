@@ -25,6 +25,8 @@ model Events {
   address     String?
   latitude    String?
   longitude   String?
+  enhanced_title       String?
+  enhanced_description String?
   created_at  DateTime @default(now())
   updated_at DateTime @default(now())
 }

@@ -67,6 +67,8 @@ describe('Bulk Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...event1
       },
       {
@@ -80,6 +82,8 @@ describe('Bulk Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...event2
       }
     ]));
@@ -115,6 +119,8 @@ describe('Bulk Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...existingEvent
       },
       {
@@ -128,6 +134,8 @@ describe('Bulk Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...newEvent
       }
     ]));
@@ -168,6 +176,8 @@ describe('Bulk Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...event1,
         description: 'A great tech meetup in Joinville',
         category: 'meetup'
@@ -183,6 +193,8 @@ describe('Bulk Routes', () => {
         address: null,
         latitude: null,
         longitude: null,
+        enhanced_title: null,
+        enhanced_description: null,
         ...event2
       }
     ]);
