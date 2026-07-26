@@ -13,5 +13,6 @@ module.exports = {
       lines: 100
     }
   },
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testPathIgnorePatterns: ['environments/']
 };
