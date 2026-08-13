@@ -22,6 +22,7 @@ model Events {
   category    String?
   description String?
   image       String?
+  venue       String?
   address     String?
   latitude    String?
   longitude   String?
